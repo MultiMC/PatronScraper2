@@ -14,7 +14,7 @@ if hasattr(ssl, '_create_unverified_context'):
 page = requests.get('https://www.patreon.com/user?u=130816&ty=p')
 if page.status_code == requests.codes.ok:
     tree = html.fromstring(page.text)
-    patrons = tree.xpath("//div[contains(concat(' ', normalize-space(@class), ' '), ' shareWindow ')]/h1/a/text()")
+    patrons = tree.xpath("//a[contains(concat(' ', normalize-space(@class), ' '), ' favesHover ')]/@title")
     patron_text = "\n".join(filter(None, map(methodcaller("strip"), patrons))) + "\n"
     conn = boto.connect_s3(validate_certs=False)
     bucket = conn.get_bucket('files.multimc.org')
